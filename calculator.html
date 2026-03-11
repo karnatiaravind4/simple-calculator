@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .calculator {
+      background: #1a1a2e;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .display {
+      background: #16213e;
+      color: white;
+      font-size: 2.5rem;
+      text-align: right;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      min-height: 80px;
+      word-wrap: break-word;
+      overflow: hidden;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      gap: 10px;
+    }
+
+    button {
+      width: 70px;
+      height: 70px;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .number {
+      background: #0f3460;
+      color: white;
+    }
+
+    .operator {
+      background: #e94560;
+      color: white;
+    }
+
+    .clear {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .equals {
+      background: #4ecdc4;
+      color: white;
+      grid-column: span 2;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="operator" onclick="appendToDisplay('/')">/</button>
+      <button class="operator" onclick="appendToDisplay('*')">×</button>
+      <button class="operator" onclick="deleteLast()">⌫</button>
+      
+      <button class="number" onclick="appendToDisplay('7')">7</button>
+      <button class="number" onclick="appendToDisplay('8')">8</button>
+      <button class="number" onclick="appendToDisplay('9')">9</button>
+      <button class="operator" onclick="appendToDisplay('-')">-</button>
+      
+      <button class="number" onclick="appendToDisplay('4')">4</button>
+      <button class="number" onclick="appendToDisplay('5')">5</button>
+      <button class="number" onclick="appendToDisplay('6')">6</button>
+      <button class="operator" onclick="appendToDisplay('+')">+</button>
+      
+      <button class="number" onclick="appendToDisplay('1')">1</button>
+      <button class="number" onclick="appendToDisplay('2')">2</button>
+      <button class="number" onclick="appendToDisplay('3')">3</button>
+      <button class="number" onclick="appendToDisplay('.')">.</button>
+      
+      <button class="number" onclick="appendToDisplay('0')">0</button>
+      <button class="equals" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let displayValue = '0';
+    const display = document.getElementById('display');
+
+    function updateDisplay() {
+      display.textContent = displayValue;
+    }
+
+    function appendToDisplay(value) {
+      if (displayValue === '0' && value !== '.') {
+        displayValue = value;
+      } else {
+        displayValue += value;
+      }
+      updateDisplay();
+    }
+
+    function clearDisplay() {
+      displayValue = '0';
+      updateDisplay();
+    }
+
+    function deleteLast() {
+      if (displayValue.length === 1) {
+        displayValue = '0';
+      } else {
+        displayValue = displayValue.slice(0, -1);
+      }
+      updateDisplay();
+    }
+
+    function calculate() {
+      try {
+        let result = eval(displayValue);
+        result = Math.round(result * 1000000) / 1000000;
+        displayValue = result.toString();
+        updateDisplay();
+      } catch (error) {
+        displayValue = 'Error';
+        updateDisplay();
+      }
+    }
+  </script>
+</body>
+</html>
